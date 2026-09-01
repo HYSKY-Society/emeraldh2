@@ -55,6 +55,8 @@ model Member {
   vehicleMake    String?
   vehicleModel   String?
   vehicleYear    String?
+  // wallet (mocked for the demo)
+  walletBalance  Float    @default(0)
   // referral program
   referralEarnings Float  @default(0)
   referredById   Int?
@@ -63,6 +65,8 @@ model Member {
 
   bookings         Booking[]
   carApplications  CarApplication[]
+  favorites        Favorite[]
+  pushSubs         PushSubscription[]
   createdAt        DateTime @default(now())
   updatedAt        DateTime @updatedAt
 
@@ -84,7 +88,10 @@ model Station {
   capacityKg  Float?   @default(10)
   pricePerKg  Float    @default(15)
   status      String   @default("active") // active | maintenance | offline
+  timings     String?  @default("24/7") // display hours, e.g. "6 AM – 10 PM"
+  phone       String?
   bookings    Booking[]
+  favorites   Favorite[]
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }
@@ -100,11 +107,38 @@ model Booking {
   price         Float
   scheduledAt   DateTime
   paymentStatus String   @default("pending") // pending | paid | failed | refunded
+  accessCode    String?  // 6-digit code shown to the driver at the station
+  doorLocked    Boolean  @default(false) // station door held for this booking until arrival
   transaction   Transaction?
   createdAt     DateTime @default(now())
 
   @@index([memberId])
   @@index([stationId])
+}
+
+// Member's favorite stations
+model Favorite {
+  id        Int      @id @default(autoincrement())
+  memberId  Int
+  member    Member   @relation(fields: [memberId], references: [id])
+  stationId Int
+  station   Station  @relation(fields: [stationId], references: [id])
+  createdAt DateTime @default(now())
+
+  @@unique([memberId, stationId])
+}
+
+// Web Push device subscriptions
+model PushSubscription {
+  id        Int      @id @default(autoincrement())
+  memberId  Int
+  member    Member   @relation(fields: [memberId], references: [id])
+  endpoint  String   @unique
+  p256dh    String
+  auth      String
+  createdAt DateTime @default(now())
+
+  @@index([memberId])
 }
 
 model Transaction {

@@ -127,7 +127,13 @@ async function main() {
   for (const s of stationSeed) {
     stations.push(
       await prisma.station.create({
-        data: { ...s, capacityKg: 10, description: `Emerald H2 ${s.title} — 5,000 / 10,000 PSI hydrogen fueling appliance.` },
+        data: {
+          ...s,
+          capacityKg: 10,
+          timings: "6:00 AM – 10:00 PM",
+          phone: "(937) 479-1994",
+          description: `Emerald H2 ${s.title} — 5,000 / 10,000 PSI hydrogen fueling appliance.`,
+        },
       })
     );
   }
@@ -196,6 +202,7 @@ async function main() {
           referralEarnings: referrer ? Math.floor(rnd() * 500) / 10 : 0,
           referredById: referrer ? referrer.id : null,
           hasVehicle: rnd() > 0.7,
+          walletBalance: 150, // demo: enough to book fuel out of the box
         },
       })
     );

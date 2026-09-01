@@ -3,8 +3,9 @@ import { redirect } from "next/navigation";
 import { prisma } from "@/lib/db";
 import { getMemberSession } from "@/lib/member-auth";
 import { logoutMember } from "@/app/actions/member-auth";
+import { PushToggle } from "@/components/PushToggle";
 import { formatCurrency } from "@/lib/utils";
-import { MapPin, Wallet, Users, Gift, CalendarDays, LogOut, ArrowRight, ShieldCheck } from "lucide-react";
+import { MapPin, Wallet, Users, Gift, CalendarDays, LogOut, ArrowRight, ShieldCheck, ListChecks } from "lucide-react";
 
 export const dynamic = "force-dynamic";
 
@@ -48,9 +49,9 @@ export default async function HomePage() {
         <div className="mt-5 overflow-hidden rounded-2xl p-5 text-white shadow-lg" style={{ background: "linear-gradient(135deg,#0b3f26,#0b8a4b)" }}>
           <div className="flex items-center justify-between">
             <span className="flex items-center gap-1.5 text-sm text-white/80"><Wallet size={15} /> Fuel balance</span>
-            <button className="rounded-full bg-white/15 px-3 py-1 text-xs font-semibold backdrop-blur">Top up</button>
+            <Link href="/app/wallet" className="rounded-full bg-white/15 px-3 py-1 text-xs font-semibold backdrop-blur hover:bg-white/25">Top up</Link>
           </div>
-          <p className="mt-2 font-display text-3xl font-extrabold tabular">{formatCurrency(0)}</p>
+          <p className="mt-2 font-display text-3xl font-extrabold tabular">{formatCurrency(member.walletBalance)}</p>
           <p className="mt-1 text-xs text-white/70">Add balance to reserve fuel. (Payments are mocked for the demo.)</p>
         </div>
 
@@ -82,17 +83,20 @@ export default async function HomePage() {
 
         {/* stats */}
         <div className="mt-4 grid grid-cols-2 gap-3">
-          <div className="rounded-xl border border-[--border] bg-white p-4 shadow-card">
-            <p className="font-mono text-[11px] uppercase text-ink-muted">Your bookings</p>
+          <Link href="/app/bookings" className="rounded-xl border border-[--border] bg-white p-4 shadow-card transition hover:shadow-md">
+            <p className="flex items-center gap-1 font-mono text-[11px] uppercase text-ink-muted"><ListChecks size={12} /> Your bookings</p>
             <p className="mt-1 font-display text-xl font-bold text-ink">{member._count.bookings}</p>
-          </div>
+          </Link>
           <div className="rounded-xl border border-[--border] bg-white p-4 shadow-card">
             <p className="font-mono text-[11px] uppercase text-ink-muted">Referrals</p>
             <p className="mt-1 font-display text-xl font-bold text-ink">{member._count.referrals}</p>
           </div>
         </div>
 
-        <p className="mt-6 text-center text-xs text-ink-muted">Station map &amp; booking arrive next (M2) · community in M3.</p>
+        {/* notifications */}
+        <div className="mt-4"><PushToggle /></div>
+
+        <p className="mt-6 text-center text-xs text-ink-muted">Community, events &amp; refer-and-earn arrive in M3.</p>
       </div>
     </main>
   );
