@@ -1,0 +1,299 @@
+// Emerald H2 — data model
+// Local dev uses SQLite (zero setup). For production, change `provider` to
+// "postgresql" and point DATABASE_URL at your Postgres instance — the models
+// below are written to port cleanly. SQLite has no native enum/JSON types, so
+// status-style fields are Strings with documented allowed values.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+// ---------------------------------------------------------------------------
+// Auth
+// ---------------------------------------------------------------------------
+
+model AdminUser {
+  id           Int      @id @default(autoincrement())
+  email        String   @unique
+  passwordHash String
+  name         String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+// ---------------------------------------------------------------------------
+// Members (drivers / community)
+// ---------------------------------------------------------------------------
+
+model Member {
+  id             Int      @id @default(autoincrement())
+  name           String
+  email          String   @unique
+  phone          String?
+  membershipCode String?  @unique
+  // status
+  isActive       Boolean  @default(true)
+  isApproved     Boolean  @default(false) // sits in the approval queue until true
+  // profile
+  about          String?
+  addressLine    String?
+  city           String?
+  state          String?
+  zip            String?
+  country        String?  @default("United States")
+  avatarUrl      String?
+  // vehicle
+  hasVehicle     Boolean  @default(false)
+  vehicleMake    String?
+  vehicleModel   String?
+  vehicleYear    String?
+  // referral program
+  referralEarnings Float  @default(0)
+  referredById   Int?
+  referredBy     Member?  @relation("Referrals", fields: [referredById], references: [id])
+  referrals      Member[] @relation("Referrals")
+
+  bookings         Booking[]
+  carApplications  CarApplication[]
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  @@index([isApproved])
+}
+
+// ---------------------------------------------------------------------------
+// Stations & booking (the fueling network)
+// ---------------------------------------------------------------------------
+
+model Station {
+  id          Int      @id @default(autoincrement())
+  code        String   @unique // e.g. 10KFS0004SOH
+  title       String
+  address     String
+  latitude    Float?
+  longitude   Float?
+  description String?
+  capacityKg  Float?   @default(10)
+  pricePerKg  Float    @default(15)
+  status      String   @default("active") // active | maintenance | offline
+  bookings    Booking[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Booking {
+  id            Int      @id @default(autoincrement())
+  bookingNo     String   @unique
+  memberId      Int
+  member        Member   @relation(fields: [memberId], references: [id])
+  stationId     Int
+  station       Station  @relation(fields: [stationId], references: [id])
+  fuelQtyKg     Float
+  price         Float
+  scheduledAt   DateTime
+  paymentStatus String   @default("pending") // pending | paid | failed | refunded
+  transaction   Transaction?
+  createdAt     DateTime @default(now())
+
+  @@index([memberId])
+  @@index([stationId])
+}
+
+model Transaction {
+  id        Int      @id @default(autoincrement())
+  bookingId Int      @unique
+  booking   Booking  @relation(fields: [bookingId], references: [id])
+  amount    Float
+  status    String   @default("pending") // pending | success | failed
+  method    String?  // card | wallet | upi | cash
+  reference String?
+  createdAt DateTime @default(now())
+}
+
+// Member safety quiz / Level-1 agreement questions
+model Question {
+  id        Int      @id @default(autoincrement())
+  text      String
+  status    String   @default("active") // active | inactive
+  createdAt DateTime @default(now())
+}
+
+// In-app onboarding/instruction screens shown to drivers
+model TrainingScreen {
+  id        Int      @id @default(autoincrement())
+  title     String
+  body      String
+  imageUrl  String?
+  sortOrder Int      @default(0)
+  status    String   @default("active")
+  createdAt DateTime @default(now())
+}
+
+// ---------------------------------------------------------------------------
+// CMS / content
+// ---------------------------------------------------------------------------
+
+model Content {
+  id        Int      @id @default(autoincrement())
+  title     String
+  slug      String   @unique
+  body      String
+  status    String   @default("published") // draft | published
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model NewsMedia {
+  id          Int      @id @default(autoincrement())
+  title       String
+  slug        String   @unique
+  excerpt     String?
+  body        String
+  imageUrl    String?
+  type        String   @default("news") // news | media | press
+  status      String   @default("published")
+  publishedAt DateTime @default(now())
+  createdAt   DateTime @default(now())
+}
+
+model Donation {
+  id        Int      @id @default(autoincrement())
+  name      String
+  email     String?
+  amount    Float
+  message   String?
+  status    String   @default("received") // received | acknowledged
+  createdAt DateTime @default(now())
+}
+
+model ForumCategory {
+  id          Int      @id @default(autoincrement())
+  name        String
+  description String?
+  status      String   @default("active")
+  sortOrder   Int      @default(0)
+  createdAt   DateTime @default(now())
+}
+
+model WebTraining {
+  id        Int      @id @default(autoincrement())
+  title     String
+  body      String
+  videoUrl  String?
+  status    String   @default("active")
+  sortOrder Int      @default(0)
+  createdAt DateTime @default(now())
+}
+
+// ---------------------------------------------------------------------------
+// Lead / investment funnels
+// ---------------------------------------------------------------------------
+
+model FractionalSignup {
+  id        Int      @id @default(autoincrement())
+  name      String
+  email     String?
+  phone     String?
+  address   String?
+  status    String   @default("new") // new | contacted | closed
+  createdAt DateTime @default(now())
+}
+
+model CarInterest {
+  id        Int      @id @default(autoincrement())
+  name      String
+  email     String?
+  phone     String?
+  city      String?
+  createdAt DateTime @default(now())
+}
+
+model CarApplication {
+  id             Int      @id @default(autoincrement())
+  memberId       Int?
+  member         Member?  @relation(fields: [memberId], references: [id])
+  // personal
+  name           String
+  phone          String?
+  email          String?
+  address        String?
+  maritalStatus  String?
+  working        Boolean  @default(false)
+  company        String?
+  position       String?
+  department     String?
+  // financial
+  homeStatus     String?  // own | rent
+  hasCurrentLoan Boolean  @default(false)
+  monthlyIncome  Float?
+  loanBank       String?
+  loanMonthsLeft Int?
+  loanMonthlyAmt Float?
+  // requested loan
+  loanType       String?  // finance | lease | cash
+  loanAmount     Float?
+  loanTerms      String?
+  preferredPayment String? // monthly | quarterly
+  status         String   @default("new")
+  createdAt      DateTime @default(now())
+}
+
+// ---------------------------------------------------------------------------
+// Mailing
+// ---------------------------------------------------------------------------
+
+model MailTemplate {
+  id        Int      @id @default(autoincrement())
+  name      String
+  subject   String
+  body      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model SentMail {
+  id         Int      @id @default(autoincrement())
+  subject    String
+  body       String
+  recipients Int      @default(0)
+  segment    String?  // all | approved | pending
+  createdAt  DateTime @default(now())
+}
+
+// ---------------------------------------------------------------------------
+// Settings (single-row singleton, id = 1)
+// ---------------------------------------------------------------------------
+
+model Setting {
+  id           Int     @id @default(1)
+  companyName  String  @default("Emerald H2")
+  headerLogo   String?
+  footerLogo   String?
+  favicon      String?
+  copyright    String  @default("Copyright © MREH2.COM. All rights reserved.")
+  // homepage hero
+  heroTitle    String  @default("Fuel Up Smarter")
+  heroSubtitle String  @default("With the Emerald H2 App, schedule fueling from anywhere, drive to the Emerald H2 station, fill up the tank and you are ready to go!")
+  heroTagline  String  @default("The Energy To Change The World")
+  // contacts
+  contactEmail String?
+  contactPhone String?
+  contactAddress String?
+  // app links
+  androidUrl   String?
+  iosUrl       String?
+  // mail setup
+  smtpHost     String?
+  smtpPort     Int?
+  smtpUser     String?
+  smtpPassword String?
+  fromEmail    String?
+  fromName     String?
+  updatedAt    DateTime @updatedAt
+}
