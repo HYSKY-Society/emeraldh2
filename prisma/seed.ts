@@ -40,11 +40,17 @@ async function main() {
   await prisma.setting.deleteMany();
 
   // ---- admin ----
+  // Credentials come from env so they never live in the repo.
+  const adminEmail = process.env.ADMIN_EMAIL || "admin@ogrelogic.com";
+  const adminPassword = process.env.ADMIN_PASSWORD || "changeme";
+  if (!process.env.ADMIN_PASSWORD) {
+    console.warn("⚠  ADMIN_PASSWORD not set — seeding admin with fallback 'changeme'. Set ADMIN_PASSWORD in .env before a real seed.");
+  }
   await prisma.adminUser.create({
     data: {
-      email: "admin@ogrelogic.com",
+      email: adminEmail,
       name: "Emerald H2 Admin",
-      passwordHash: await bcrypt.hash("emrald@ogre1", 10),
+      passwordHash: await bcrypt.hash(adminPassword, 10),
     },
   });
 
