@@ -4,6 +4,7 @@ import { prisma } from "@/lib/db";
 import { getMemberSession } from "@/lib/member-auth";
 import { logoutMember } from "@/app/actions/member-auth";
 import { PushToggle } from "@/components/PushToggle";
+import { MemberTabBar } from "@/components/MemberTabBar";
 import { formatCurrency } from "@/lib/utils";
 import { MapPin, Wallet, Users, Gift, CalendarDays, LogOut, ArrowRight, ShieldCheck, ListChecks } from "lucide-react";
 
@@ -24,7 +25,7 @@ export default async function HomePage() {
   const firstName = member.name.split(" ")[0];
 
   return (
-    <main className="min-h-[100dvh]" style={{ background: "var(--ground)" }}>
+    <div className="flex min-h-[100dvh] flex-col" style={{ background: "var(--ground)" }}>
       {/* header */}
       <header className="flex items-center justify-between px-6 pb-3 pt-6">
         <div className="flex items-center gap-2">
@@ -36,7 +37,7 @@ export default async function HomePage() {
         </form>
       </header>
 
-      <div className="px-6 pb-10">
+      <div className="flex-1 px-6 pb-6">
         {/* greeting */}
         <p className="mt-2 text-sm text-ink-muted">Welcome back,</p>
         <h1 className="font-display text-2xl font-bold text-ink">{firstName} 👋</h1>
@@ -96,8 +97,9 @@ export default async function HomePage() {
         {/* notifications */}
         <div className="mt-4"><PushToggle /></div>
 
-        <p className="mt-6 text-center text-xs text-ink-muted">Community, events &amp; refer-and-earn arrive in M3.</p>
+        <p className="mt-6 text-center text-xs text-ink-muted">Events &amp; direct messages arrive in M4.</p>
       </div>
-    </main>
+      <MemberTabBar />
+    </div>
   );
 }

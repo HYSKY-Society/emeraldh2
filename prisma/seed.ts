@@ -20,6 +20,10 @@ async function main() {
   console.log("Seeding Emerald H2 database...");
 
   // ---- wipe (order matters for FKs) ----
+  await prisma.reaction.deleteMany();
+  await prisma.post.deleteMany();
+  await prisma.favorite.deleteMany();
+  await prisma.pushSubscription.deleteMany();
   await prisma.transaction.deleteMany();
   await prisma.booking.deleteMany();
   await prisma.carApplication.deleteMany();
@@ -162,6 +166,8 @@ async function main() {
   const fillerFirst = ["Jason", "Maria", "Kevin", "Laura", "Peter", "Nancy", "Frank", "Olivia", "George", "Rachel", "Henry", "Sofia", "Walter", "Diane", "Carl", "Emma", "Ralph", "Grace"];
   const fillerLast = ["Turner", "Bishop", "Warren", "Foster", "Grant", "Hayes", "Reed", "Cole", "Barnes", "Fox", "Shaw", "Rhodes", "Palmer", "Watts", "Dixon", "Mercer", "Boyd", "Nash"];
   const cities = [["Columbus", "OH", "43215"], ["Portsmouth", "OH", "45662"], ["Cincinnati", "OH", "45202"], ["Indianapolis", "IN", "46204"], ["Louisville", "KY", "40202"]];
+  const COMPANIES = ["Millennium Reign Energy", "Emerald H2", "H2 Logistics Co", "Green Grid Partners", "Fuel Cell Dynamics", "Independent", "Dayton Clean Transit", "Hydrogen Highway LLC"];
+  const JOBTITLES = ["Fleet Driver", "Station Host", "Founding Member", "Fuel Cell Engineer", "Operations Lead", "Early Adopter", "Community Organizer", "Investor"];
 
   const memberInputs = [...realMembers];
   while (memberInputs.length < 35) {
@@ -183,10 +189,17 @@ async function main() {
   for (let i = 0; i < memberInputs.length; i++) {
     const m = memberInputs[i];
     const referrer = i > 4 && rnd() > 0.6 ? members[Math.floor(rnd() * members.length)] : null;
+    const company = pick(COMPANIES);
+    const jobTitle = pick(JOBTITLES);
+    const tier = i % 8 === 0 ? "VIP" : i % 3 === 0 ? "Supporter" : "Member";
     members.push(
       await prisma.member.create({
         data: {
           name: m.name,
+          company,
+          jobTitle,
+          tier,
+          headline: `${jobTitle} · ${company}`,
           email: m.email,
           phone: m.phone,
           membershipCode: code6(),
@@ -206,6 +219,27 @@ async function main() {
         },
       })
     );
+  }
+
+  // ---- community feed (believable posts from real members) ----
+  const feed = [
+    { email: "chris@mreh2.com", body: "Big milestone: DAE Capital just reserved 5 stations for the Dayton pilot. The Ohio Hydrogen Triangle is officially taking shape. 🚀" },
+    { email: "hydrogenchris@gmail.com", body: "Filled up in 8 minutes at the Main St. station this morning. Still can't believe how easy the app makes it — reserve, drive, done." },
+    { email: "kimby@mreh2.com", body: "Reminder for new members: complete the safety test before your first fill. Takes 5 minutes and keeps everyone safe. 🔒" },
+    { email: "bjbabian@gmail.com", body: "Proud to be signed up for fractional ownership of the Springfield station. Building infrastructure that pays for itself." },
+    { email: "d@hy-sky.net", body: "Loving where the Emerald H2 community is headed. If it uses hydrogen and moves people, it belongs here." },
+    { email: "chris@mreh2.com", body: "Goal check: 30,000 stations over the next 20 years. Every member who joins moves the ticker — and the mission — forward." },
+    { email: "hydrogenchris@gmail.com", body: "Tip: use 'remaining miles' in the app to find a station that can actually fill your tank at your current pressure. Game changer." },
+    { email: "kimby@mreh2.com", body: "Green hydrogen from wind and solar at ~$3.25 a gallon equivalent. This is how we switch from a fossil economy to a hydrogen one." },
+  ];
+  for (const f of feed) {
+    const author = members.find((m) => m.email === f.email) || members[0];
+    const post = await prisma.post.create({ data: { memberId: author.id, body: f.body } });
+    const likers = members.filter((m) => m.id !== author.id).slice(0, 4 + Math.floor(rnd() * 6));
+    await prisma.reaction.createMany({
+      data: likers.map((l) => ({ postId: post.id, memberId: l.id, type: "like" })),
+      skipDuplicates: true,
+    });
   }
 
   // ---- bookings + transactions ----

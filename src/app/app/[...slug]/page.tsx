@@ -8,10 +8,7 @@ export const dynamic = "force-dynamic";
 const LABELS: Record<string, { title: string; when: string }> = {
   find: { title: "Station Finder", when: "M2" },
   book: { title: "Booking", when: "M2" },
-  community: { title: "Community", when: "M3" },
-  events: { title: "Events", when: "M3" },
-  refer: { title: "Refer & Earn", when: "M3" },
-  profile: { title: "Your Profile", when: "M3" },
+  events: { title: "Events", when: "M4" },
   messages: { title: "Messages", when: "M4" },
 };
 
