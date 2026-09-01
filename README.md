@@ -25,10 +25,9 @@ npm run setup     # prisma generate + db push + seed
 npm run dev       # http://localhost:3000
 ```
 
-Then sign in at `/login`:
-
-- **Email:** `admin@ogrelogic.com`
-- **Password:** `emrald@ogre1`
+Then sign in at `/login` with the admin account created by the database seed
+(defined in [`prisma/seed.ts`](prisma/seed.ts)). **Set your own admin credentials
+there before any real deployment** — do not ship the default.
 
 ### Useful scripts
 
