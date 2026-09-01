@@ -48,6 +48,9 @@ async function main() {
     },
   });
 
+  // Demo password for every seeded member (customer app login).
+  const memberPasswordHash = await bcrypt.hash("emerald123", 10);
+
   // ---- settings ----
   await prisma.setting.create({
     data: {
@@ -177,6 +180,8 @@ async function main() {
           membershipCode: code6(),
           isApproved: m.approved,
           isActive: true,
+          passwordHash: memberPasswordHash,
+          trainingCompleted: true,
           addressLine: "",
           city: m.city,
           state: m.state,

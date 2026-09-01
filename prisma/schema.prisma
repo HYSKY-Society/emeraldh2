@@ -37,9 +37,11 @@ model Member {
   email          String   @unique
   phone          String?
   membershipCode String?  @unique
+  passwordHash   String?  // customer app login (bcrypt); null = never set a password
   // status
   isActive       Boolean  @default(true)
   isApproved     Boolean  @default(false) // sits in the approval queue until true
+  trainingCompleted Boolean @default(false) // passed the safety test → app unlocked
   // profile
   about          String?
   addressLine    String?
