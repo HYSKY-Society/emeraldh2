@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 :root {
-  --bg: #f4f7f4;
+  --ground: #f4f7f4;
   --surface: #ffffff;
   --surface-2: #eef2ee;
   --border: #dbe4dd;
@@ -12,12 +12,22 @@
   --muted: #5b6b62;
 }
 
+:root[data-theme="dark"] {
+  --ground: #0b120e;
+  --surface: #111b15;
+  --surface-2: #17241c;
+  --border: #223026;
+  --ink: #eaf3ec;
+  --ink-soft: #c2d3c8;
+  --muted: #8ba394;
+}
+
 @layer base {
   html {
     -webkit-text-size-adjust: 100%;
   }
   body {
-    background: var(--bg);
+    background: var(--ground);
     color: var(--ink);
     font-feature-settings: "cv02", "cv03", "cv04";
   }

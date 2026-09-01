@@ -39,7 +39,7 @@ export default function LoginPage() {
           </span>
         </div>
 
-        <div className="rounded-2xl border border-white/10 bg-white/95 p-7 shadow-2xl backdrop-blur">
+        <div className="rounded-2xl border border-white/10 bg-surface p-7 shadow-2xl backdrop-blur">
           <div className="mb-5">
             <h1 className="font-display text-2xl font-bold text-ink">Admin sign in</h1>
             <p className="mt-1 text-sm text-ink-muted">Sign in to manage the hydrogen network.</p>
@@ -58,7 +58,7 @@ export default function LoginPage() {
                 required
                 defaultValue="admin@ogrelogic.com"
                 placeholder="you@company.com"
-                className="mt-1 w-full rounded-lg border border-[--border] bg-white px-3 py-2.5 text-ink outline-none focus:border-brand-400"
+                className="mt-1 w-full rounded-lg border border-[--border] bg-surface px-3 py-2.5 text-ink outline-none focus:border-brand-400"
               />
             </label>
             <label className="text-sm font-medium text-ink-soft">
@@ -68,7 +68,7 @@ export default function LoginPage() {
                 type="password"
                 required
                 placeholder="••••••••"
-                className="mt-1 w-full rounded-lg border border-[--border] bg-white px-3 py-2.5 text-ink outline-none focus:border-brand-400"
+                className="mt-1 w-full rounded-lg border border-[--border] bg-surface px-3 py-2.5 text-ink outline-none focus:border-brand-400"
               />
             </label>
             <SubmitButton />

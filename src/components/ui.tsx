@@ -29,7 +29,7 @@ export function PageHeader({
 
 /* ---------------- Card ---------------- */
 export function Card({ children, className }: { children: React.ReactNode; className?: string }) {
-  return <div className={cn("rounded-xl border border-[--border] bg-white shadow-card", className)}>{children}</div>;
+  return <div className={cn("rounded-xl border border-[--border] bg-surface shadow-card", className)}>{children}</div>;
 }
 export function CardHeader({ title, action }: { title: string; action?: React.ReactNode }) {
   return (
@@ -50,7 +50,7 @@ export function Button({
 }: React.ButtonHTMLAttributes<HTMLButtonElement> & { variant?: "primary" | "ghost" | "danger" | "outline" }) {
   const styles = {
     primary: "bg-brand-500 text-white hover:bg-brand-600 shadow-sm",
-    outline: "border border-[--border] bg-white text-ink-soft hover:bg-[--surface-2]",
+    outline: "border border-[--border] bg-surface text-ink-soft hover:bg-[--surface-2]",
     ghost: "text-ink-soft hover:bg-[--surface-2]",
     danger: "bg-red-600 text-white hover:bg-red-700",
   }[variant];
@@ -73,7 +73,7 @@ export function LinkButton({
 }) {
   const styles = {
     primary: "bg-brand-500 text-white hover:bg-brand-600 shadow-sm",
-    outline: "border border-[--border] bg-white text-ink-soft hover:bg-[--surface-2]",
+    outline: "border border-[--border] bg-surface text-ink-soft hover:bg-[--surface-2]",
     ghost: "text-ink-soft hover:bg-[--surface-2]",
   }[variant];
   return (
@@ -161,7 +161,7 @@ export function Field({ label, children, hint }: { label: string; children: Reac
     </label>
   );
 }
-const inputCls = "w-full rounded-lg border border-[--border] bg-white px-3 py-2 text-sm text-ink outline-none focus:border-brand-400";
+const inputCls = "w-full rounded-lg border border-[--border] bg-surface px-3 py-2 text-sm text-ink outline-none focus:border-brand-400";
 export function Input(props: React.InputHTMLAttributes<HTMLInputElement>) {
   return <input {...props} className={cn(inputCls, props.className)} />;
 }

@@ -20,6 +20,10 @@ async function main() {
   console.log("Seeding Emerald H2 database...");
 
   // ---- wipe (order matters for FKs) ----
+  await prisma.notification.deleteMany();
+  await prisma.message.deleteMany();
+  await prisma.eventRSVP.deleteMany();
+  await prisma.event.deleteMany();
   await prisma.reaction.deleteMany();
   await prisma.post.deleteMany();
   await prisma.favorite.deleteMany();
@@ -239,6 +243,34 @@ async function main() {
     await prisma.reaction.createMany({
       data: likers.map((l) => ({ postId: post.id, memberId: l.id, type: "like" })),
       skipDuplicates: true,
+    });
+  }
+
+  // ---- events ----
+  const events = [
+    { title: "Flying Hy 2026 — Hydrogen Highway Summit", description: "A one-day virtual summit charting the path to a transcontinental hydrogen highway. Hear from MRE, Emerald H2, and partners across the ecosystem.", days: 20, isFeatured: true, isVirtual: true, location: "Zoom (Virtual)" },
+    { title: "Dayton Station Grand Opening", description: "Join us for the ribbon-cutting of the Main St. station — live fueling demos, fuel-cell test drives, and refreshments.", days: 7, isFeatured: false, isVirtual: false, location: "530 N. Main St., Dayton, OH" },
+    { title: "Member Safety Refresher Webinar", description: "A quick refresher on safe station operation and the member code of conduct. Recommended for all Level 1 members.", days: 3, isFeatured: false, isVirtual: true, location: "Zoom (Virtual)" },
+    { title: "Fractional Ownership Info Session", description: "Learn how community capital funds new stations and how fractional ownership works.", days: 35, isFeatured: false, isVirtual: true, location: "Zoom (Virtual)" },
+  ];
+  for (const e of events) {
+    await prisma.event.create({
+      data: { title: e.title, description: e.description, startsAt: new Date(Date.now() + e.days * 86400000), isFeatured: e.isFeatured, isVirtual: e.isVirtual, location: e.location },
+    });
+  }
+
+  // ---- direct messages + notifications (for the demo member) ----
+  const kris = members.find((m) => m.email === "hydrogenchris@gmail.com");
+  const chris = members.find((m) => m.email === "chris@mreh2.com");
+  if (kris && chris) {
+    await prisma.message.create({ data: { senderId: chris.id, recipientId: kris.id, body: "Welcome to the network, Kris! Let me know if you have any questions about your first fill." } });
+    await prisma.message.create({ data: { senderId: kris.id, recipientId: chris.id, body: "Thanks Chris! Filled up this morning — 8 minutes, super smooth." } });
+    await prisma.message.create({ data: { senderId: chris.id, recipientId: kris.id, body: "Love to hear it. Spread the word 🚀", readAt: null } });
+    await prisma.notification.createMany({
+      data: [
+        { memberId: kris.id, type: "system", title: "Welcome to Emerald H2", body: "Complete your profile and find your first station.", url: "/app/find", read: true },
+        { memberId: kris.id, type: "message", title: "New message from Chris McWhinney", body: "Welcome to the network, Kris!", url: `/app/messages/${chris.id}`, read: false },
+      ],
     });
   }
 

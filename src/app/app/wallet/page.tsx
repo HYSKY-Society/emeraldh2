@@ -42,7 +42,7 @@ export default async function WalletPage({ searchParams }: { searchParams: { nee
         {AMOUNTS.map((a) => (
           <form key={a} action={topUpWallet}>
             <input type="hidden" name="amount" value={a} />
-            <button type="submit" className="flex w-full items-center justify-center gap-2 rounded-xl border border-[--border] bg-white py-4 font-display text-lg font-bold text-ink shadow-card transition hover:border-brand-400 hover:bg-brand-50">
+            <button type="submit" className="flex w-full items-center justify-center gap-2 rounded-xl border border-[--border] bg-surface py-4 font-display text-lg font-bold text-ink shadow-card transition hover:border-brand-400 hover:bg-brand-50">
               <Plus size={16} className="text-brand-500" /> {formatCurrency(a)}
             </button>
           </form>

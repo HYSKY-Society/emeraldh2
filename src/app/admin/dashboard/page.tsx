@@ -8,7 +8,7 @@ export const dynamic = "force-dynamic";
 
 function Stat({ icon: Icon, label, value, href, accent }: { icon: any; label: string; value: string; href: string; accent: string }) {
   return (
-    <Link href={href} className="group relative overflow-hidden rounded-xl border border-[--border] bg-white p-5 shadow-card transition hover:shadow-md">
+    <Link href={href} className="group relative overflow-hidden rounded-xl border border-[--border] bg-surface p-5 shadow-card transition hover:shadow-md">
       <div className="flex items-start justify-between">
         <div>
           <p className="font-mono text-[11px] uppercase tracking-wider text-ink-muted">{label}</p>

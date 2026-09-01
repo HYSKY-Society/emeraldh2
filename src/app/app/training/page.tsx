@@ -30,7 +30,7 @@ export default async function TrainingPage() {
 
       <div className="mt-6 flex flex-col gap-3">
         {screens.map((s, i) => (
-          <div key={s.id} className="flex gap-3 rounded-xl border border-[--border] bg-white p-4 shadow-card">
+          <div key={s.id} className="flex gap-3 rounded-xl border border-[--border] bg-surface p-4 shadow-card">
             <span className="grid h-7 w-7 shrink-0 place-items-center rounded-lg bg-brand-50 font-mono text-xs font-semibold text-brand-600">{i + 1}</span>
             <div>
               <p className="font-display text-sm font-semibold text-ink">{s.title}</p>
@@ -40,7 +40,7 @@ export default async function TrainingPage() {
         ))}
       </div>
 
-      <div className="mt-4 flex items-center gap-2 rounded-xl border border-[--border] bg-white px-4 py-3 text-sm text-ink-soft shadow-card">
+      <div className="mt-4 flex items-center gap-2 rounded-xl border border-[--border] bg-surface px-4 py-3 text-sm text-ink-soft shadow-card">
         <FileText size={16} className="text-brand-500" />
         Full fueling instructions are available in-app as a PDF.
       </div>

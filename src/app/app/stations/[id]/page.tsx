@@ -51,14 +51,14 @@ export default async function StationDetail({ params }: { params: { id: string }
         <FavoriteButton stationId={station.id} favorite={!!fav} />
       </div>
 
-      <div className="mt-5 flex flex-col gap-2.5 rounded-2xl border border-[--border] bg-white p-5 shadow-card text-sm">
+      <div className="mt-5 flex flex-col gap-2.5 rounded-2xl border border-[--border] bg-surface p-5 shadow-card text-sm">
         <p className="flex items-start gap-2.5 text-ink-soft"><MapPin size={16} className="mt-0.5 text-ink-muted" /> {station.address}</p>
         <p className="flex items-center gap-2.5 text-ink-soft"><Clock size={16} className="text-ink-muted" /> {station.timings || "24/7"}</p>
         <p className="flex items-center gap-2.5 text-ink-soft"><Phone size={16} className="text-ink-muted" /> {station.phone || "—"}</p>
         <p className="flex items-center gap-2.5 text-ink-soft"><Fuel size={16} className="text-ink-muted" /> {formatCurrency(station.pricePerKg)} / kg</p>
       </div>
 
-      <a href={mapsUrl} target="_blank" rel="noreferrer" className="mt-3 flex items-center justify-center gap-2 rounded-xl border border-[--border] bg-white py-3 text-sm font-semibold text-ink-soft hover:bg-[--surface-2]">
+      <a href={mapsUrl} target="_blank" rel="noreferrer" className="mt-3 flex items-center justify-center gap-2 rounded-xl border border-[--border] bg-surface py-3 text-sm font-semibold text-ink-soft hover:bg-[--surface-2]">
         <Navigation size={16} className="text-brand-500" /> Directions
       </a>
 
@@ -67,7 +67,7 @@ export default async function StationDetail({ params }: { params: { id: string }
           Book Now <ArrowRight size={18} />
         </Link>
       ) : (
-        <div className="mt-3 rounded-xl border border-dashed border-[--border] bg-white px-4 py-3 text-center text-sm text-ink-muted">
+        <div className="mt-3 rounded-xl border border-dashed border-[--border] bg-surface px-4 py-3 text-center text-sm text-ink-muted">
           This station isn&rsquo;t accepting bookings right now.
         </div>
       )}

@@ -38,7 +38,7 @@ export default async function BookingConfirmation({ params }: { params: { id: st
       </div>
 
       {/* details */}
-      <div className="mt-4 flex flex-col gap-2.5 rounded-2xl border border-[--border] bg-white p-5 text-sm shadow-card">
+      <div className="mt-4 flex flex-col gap-2.5 rounded-2xl border border-[--border] bg-surface p-5 text-sm shadow-card">
         <Row k="Booking no." v={booking.bookingNo} mono />
         <Row k="Fuel" v={`${booking.fuelQtyKg} kg`} />
         <Row k="Paid" v={formatCurrency(booking.price)} />
@@ -47,7 +47,7 @@ export default async function BookingConfirmation({ params }: { params: { id: st
       </div>
 
       <div className="mt-auto flex gap-3 pt-6">
-        <Link href="/app/bookings" className="flex flex-1 items-center justify-center gap-2 rounded-xl border border-[--border] bg-white py-3 text-sm font-semibold text-ink-soft hover:bg-[--surface-2]">
+        <Link href="/app/bookings" className="flex flex-1 items-center justify-center gap-2 rounded-xl border border-[--border] bg-surface py-3 text-sm font-semibold text-ink-soft hover:bg-[--surface-2]">
           <ListChecks size={16} /> My bookings
         </Link>
         <Link href="/app/home" className="flex flex-1 items-center justify-center gap-2 rounded-xl bg-brand-500 py-3 text-sm font-semibold text-white hover:bg-brand-600">

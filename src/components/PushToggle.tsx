@@ -61,7 +61,7 @@ export function PushToggle() {
 
   if (state === "on") {
     return (
-      <div className="flex items-center gap-2 rounded-xl border border-[--border] bg-white px-4 py-3 text-sm text-ink-soft shadow-card">
+      <div className="flex items-center gap-2 rounded-xl border border-[--border] bg-surface px-4 py-3 text-sm text-ink-soft shadow-card">
         <BellRing size={16} className="text-brand-500" /> Notifications are on
       </div>
     );
@@ -71,7 +71,7 @@ export function PushToggle() {
     <button
       onClick={enable}
       disabled={state === "working"}
-      className="flex w-full items-center justify-center gap-2 rounded-xl border border-[--border] bg-white px-4 py-3 text-sm font-semibold text-ink-soft shadow-card transition hover:bg-[--surface-2] disabled:opacity-60"
+      className="flex w-full items-center justify-center gap-2 rounded-xl border border-[--border] bg-surface px-4 py-3 text-sm font-semibold text-ink-soft shadow-card transition hover:bg-[--surface-2] disabled:opacity-60"
     >
       <Bell size={16} className="text-brand-500" />
       {state === "working" ? "Enabling…" : state === "denied" ? "Notifications blocked — enable in browser settings" : "Enable notifications"}

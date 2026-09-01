@@ -41,7 +41,7 @@ export default async function StationDashboard() {
           const pin = PIN[s.status] ?? PIN.offline;
           const kg = s.bookings.reduce((x, b) => x + b.fuelQtyKg, 0);
           return (
-            <Link key={s.id} href={`/admin/stations/${s.id}`} className={`rounded-xl border border-[--border] bg-white p-5 shadow-card ring-1 ${pin.ring} transition hover:shadow-md`}>
+            <Link key={s.id} href={`/admin/stations/${s.id}`} className={`rounded-xl border border-[--border] bg-surface p-5 shadow-card ring-1 ${pin.ring} transition hover:shadow-md`}>
               <div className="flex items-center justify-between">
                 <span className="grid h-10 w-10 place-items-center rounded-lg bg-brand-50 text-brand-600"><Fuel size={18} /></span>
                 <span className="inline-flex items-center gap-1.5 text-xs font-medium text-ink-soft">

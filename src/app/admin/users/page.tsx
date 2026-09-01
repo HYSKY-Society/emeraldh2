@@ -36,7 +36,7 @@ export default async function UsersPage({ searchParams }: { searchParams: { q?: 
               name="q"
               defaultValue={q}
               placeholder="Search name, email or code…"
-              className="w-full rounded-lg border border-[--border] bg-white py-2 pl-9 pr-3 text-sm outline-none focus:border-brand-400"
+              className="w-full rounded-lg border border-[--border] bg-surface py-2 pl-9 pr-3 text-sm outline-none focus:border-brand-400"
             />
           </form>
         </div>

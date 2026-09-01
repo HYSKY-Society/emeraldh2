@@ -57,7 +57,7 @@ export default async function StationDetail({ params }: { params: { id: string }
                   key={st.value}
                   action={updateStationStatus.bind(null, station.id, st.value)}
                   className={`flex items-center justify-between rounded-lg border px-3 py-2 text-sm font-medium transition ${
-                    station.status === st.value ? "border-brand-400 bg-brand-50 text-brand-700" : "border-[--border] bg-white text-ink-soft hover:bg-[--surface-2]"
+                    station.status === st.value ? "border-brand-400 bg-brand-50 text-brand-700" : "border-[--border] bg-surface text-ink-soft hover:bg-[--surface-2]"
                   }`}
                 >
                   {st.label}

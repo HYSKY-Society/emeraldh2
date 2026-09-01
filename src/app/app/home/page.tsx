@@ -6,7 +6,7 @@ import { logoutMember } from "@/app/actions/member-auth";
 import { PushToggle } from "@/components/PushToggle";
 import { MemberTabBar } from "@/components/MemberTabBar";
 import { formatCurrency } from "@/lib/utils";
-import { MapPin, Wallet, Users, Gift, CalendarDays, LogOut, ArrowRight, ShieldCheck, ListChecks } from "lucide-react";
+import { MapPin, Wallet, Users, Gift, CalendarDays, LogOut, ArrowRight, ShieldCheck, ListChecks, Bell, MessageSquare } from "lucide-react";
 
 export const dynamic = "force-dynamic";
 
@@ -21,7 +21,11 @@ export default async function HomePage() {
   if (!member) redirect("/app/signin");
   if (!member.trainingCompleted) redirect("/app/training");
 
-  const activeStations = await prisma.station.count({ where: { status: "active" } });
+  const [activeStations, unreadNotes, unreadMsgs] = await Promise.all([
+    prisma.station.count({ where: { status: "active" } }),
+    prisma.notification.count({ where: { memberId: member.id, read: false } }),
+    prisma.message.count({ where: { recipientId: member.id, readAt: null } }),
+  ]);
   const firstName = member.name.split(" ")[0];
 
   return (
@@ -32,9 +36,19 @@ export default async function HomePage() {
           <span className="grid h-8 w-8 place-items-center rounded-lg bg-brand-500 font-display text-base font-extrabold text-white">H₂</span>
           <span className="font-display text-base font-extrabold tracking-tight text-ink">EMERALD <span className="text-brand-500">H2</span></span>
         </div>
-        <form action={logoutMember}>
-          <button className="rounded-lg p-2 text-ink-muted hover:bg-[--surface-2]" aria-label="Log out"><LogOut size={18} /></button>
-        </form>
+        <div className="flex items-center gap-1">
+          <Link href="/app/messages" className="relative rounded-lg p-2 text-ink-muted hover:bg-[--surface-2]" aria-label="Messages">
+            <MessageSquare size={18} />
+            {unreadMsgs > 0 && <span className="absolute right-1 top-1 grid h-4 min-w-4 place-items-center rounded-full bg-brand-500 px-1 text-[9px] font-bold text-white">{unreadMsgs}</span>}
+          </Link>
+          <Link href="/app/notifications" className="relative rounded-lg p-2 text-ink-muted hover:bg-[--surface-2]" aria-label="Notifications">
+            <Bell size={18} />
+            {unreadNotes > 0 && <span className="absolute right-1 top-1 grid h-4 min-w-4 place-items-center rounded-full bg-red-500 px-1 text-[9px] font-bold text-white">{unreadNotes}</span>}
+          </Link>
+          <form action={logoutMember}>
+            <button className="rounded-lg p-2 text-ink-muted hover:bg-[--surface-2]" aria-label="Log out"><LogOut size={18} /></button>
+          </form>
+        </div>
       </header>
 
       <div className="flex-1 px-6 pb-6">
@@ -57,7 +71,7 @@ export default async function HomePage() {
         </div>
 
         {/* primary CTA */}
-        <Link href="/app/find" className="mt-4 flex items-center justify-between rounded-2xl bg-white p-5 shadow-card ring-1 ring-brand-100 transition hover:shadow-md">
+        <Link href="/app/find" className="mt-4 flex items-center justify-between rounded-2xl bg-surface p-5 shadow-card ring-1 ring-brand-100 transition hover:shadow-md">
           <div className="flex items-center gap-3">
             <span className="grid h-11 w-11 place-items-center rounded-xl bg-brand-50 text-brand-600"><MapPin size={20} /></span>
             <div>
@@ -75,7 +89,7 @@ export default async function HomePage() {
             { icon: CalendarDays, label: "Events", href: "/app/events" },
             { icon: Gift, label: "Refer & Earn", href: "/app/refer" },
           ].map((t) => (
-            <Link key={t.label} href={t.href} className="flex flex-col items-center gap-2 rounded-xl border border-[--border] bg-white px-2 py-4 text-center shadow-card">
+            <Link key={t.label} href={t.href} className="flex flex-col items-center gap-2 rounded-xl border border-[--border] bg-surface px-2 py-4 text-center shadow-card">
               <span className="grid h-9 w-9 place-items-center rounded-lg bg-brand-50 text-brand-600"><t.icon size={17} /></span>
               <span className="text-xs font-medium text-ink-soft">{t.label}</span>
             </Link>
@@ -84,11 +98,11 @@ export default async function HomePage() {
 
         {/* stats */}
         <div className="mt-4 grid grid-cols-2 gap-3">
-          <Link href="/app/bookings" className="rounded-xl border border-[--border] bg-white p-4 shadow-card transition hover:shadow-md">
+          <Link href="/app/bookings" className="rounded-xl border border-[--border] bg-surface p-4 shadow-card transition hover:shadow-md">
             <p className="flex items-center gap-1 font-mono text-[11px] uppercase text-ink-muted"><ListChecks size={12} /> Your bookings</p>
             <p className="mt-1 font-display text-xl font-bold text-ink">{member._count.bookings}</p>
           </Link>
-          <div className="rounded-xl border border-[--border] bg-white p-4 shadow-card">
+          <div className="rounded-xl border border-[--border] bg-surface p-4 shadow-card">
             <p className="font-mono text-[11px] uppercase text-ink-muted">Referrals</p>
             <p className="mt-1 font-display text-xl font-bold text-ink">{member._count.referrals}</p>
           </div>

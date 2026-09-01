@@ -50,13 +50,13 @@ export default async function MembersPage({ searchParams }: { searchParams: { q?
             name="q"
             defaultValue={q}
             placeholder="Search name or company…"
-            className="w-full rounded-xl border border-[--border] bg-white py-2.5 pl-9 pr-3 text-sm outline-none focus:border-brand-400"
+            className="w-full rounded-xl border border-[--border] bg-surface py-2.5 pl-9 pr-3 text-sm outline-none focus:border-brand-400"
           />
         </form>
 
         <div className="mt-4 flex flex-col gap-2.5">
           {members.map((m) => (
-            <Link key={m.id} href={`/app/members/${m.id}`} className="flex items-center gap-3 rounded-xl border border-[--border] bg-white p-3.5 shadow-card transition hover:shadow-md">
+            <Link key={m.id} href={`/app/members/${m.id}`} className="flex items-center gap-3 rounded-xl border border-[--border] bg-surface p-3.5 shadow-card transition hover:shadow-md">
               <Avatar name={m.name} size={44} />
               <div className="min-w-0 flex-1">
                 <div className="flex items-center gap-2">
@@ -72,7 +72,7 @@ export default async function MembersPage({ searchParams }: { searchParams: { q?
             </Link>
           ))}
           {members.length === 0 && (
-            <p className="rounded-xl border border-dashed border-[--border] bg-white px-4 py-8 text-center text-sm text-ink-muted">No members match &ldquo;{q}&rdquo;.</p>
+            <p className="rounded-xl border border-dashed border-[--border] bg-surface px-4 py-8 text-center text-sm text-ink-muted">No members match &ldquo;{q}&rdquo;.</p>
           )}
         </div>
       </div>

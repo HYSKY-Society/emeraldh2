@@ -15,7 +15,7 @@ const TABS = [
 export function MemberTabBar() {
   const pathname = usePathname();
   return (
-    <nav className="sticky bottom-0 z-20 mt-4 grid grid-cols-5 border-t border-[--border] bg-white/95 backdrop-blur">
+    <nav className="sticky bottom-0 z-20 mt-4 grid grid-cols-5 border-t border-[--border] bg-surface backdrop-blur">
       {TABS.map((t) => {
         const active = pathname === t.href || pathname.startsWith(t.href + "/");
         const Icon = t.icon;

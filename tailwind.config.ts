@@ -24,10 +24,15 @@ const config: Config = {
           600: "#136089",
         },
         ink: {
-          DEFAULT: "#0e1712",
-          soft: "#33463c",
-          muted: "#5b6b62",
+          DEFAULT: "var(--ink)",
+          soft: "var(--ink-soft)",
+          muted: "var(--muted)",
         },
+        surface: {
+          DEFAULT: "var(--surface)",
+          2: "var(--surface-2)",
+        },
+        ground: "var(--ground)",
       },
       fontFamily: {
         sans: ["var(--font-plex-sans)", "system-ui", "sans-serif"],

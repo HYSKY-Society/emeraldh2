@@ -8,7 +8,7 @@ import { Menu, KeyRound, LogOut, ChevronDown, UserCircle2 } from "lucide-react";
 export default function Topbar({ adminName, onOpenSidebar }: { adminName: string; onOpenSidebar: () => void }) {
   const [open, setOpen] = useState(false);
   return (
-    <header className="sticky top-0 z-30 flex h-14 items-center gap-3 border-b border-[--border] bg-white/85 px-4 backdrop-blur">
+    <header className="sticky top-0 z-30 flex h-14 items-center gap-3 border-b border-[--border] bg-surface px-4 backdrop-blur">
       <button onClick={onOpenSidebar} className="rounded-lg p-2 text-ink-soft hover:bg-[--surface-2] lg:hidden" aria-label="Open menu">
         <Menu size={20} />
       </button>
@@ -32,7 +32,7 @@ export default function Topbar({ adminName, onOpenSidebar }: { adminName: string
           {open && (
             <>
               <div className="fixed inset-0 z-10" onClick={() => setOpen(false)} />
-              <div className="absolute right-0 z-20 mt-1.5 w-52 overflow-hidden rounded-xl border border-[--border] bg-white shadow-lg">
+              <div className="absolute right-0 z-20 mt-1.5 w-52 overflow-hidden rounded-xl border border-[--border] bg-surface shadow-lg">
                 <Link href="/admin/settings" onClick={() => setOpen(false)}
                   className="flex items-center gap-2 px-3.5 py-2.5 text-sm text-ink-soft hover:bg-[--surface-2]">
                   <KeyRound size={15} /> Settings

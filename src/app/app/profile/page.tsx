@@ -5,12 +5,13 @@ import { getMemberSession } from "@/lib/member-auth";
 import { updateProfile } from "@/app/actions/community";
 import { logoutMember } from "@/app/actions/member-auth";
 import { MemberTabBar } from "@/components/MemberTabBar";
+import { ThemeToggle } from "@/components/ThemeToggle";
 import { Avatar } from "@/components/ui";
 import { Save, ExternalLink, LogOut } from "lucide-react";
 
 export const dynamic = "force-dynamic";
 
-const input = "w-full rounded-xl border border-[--border] bg-white px-3 py-2.5 text-sm text-ink outline-none focus:border-brand-400";
+const input = "w-full rounded-xl border border-[--border] bg-surface px-3 py-2.5 text-sm text-ink outline-none focus:border-brand-400";
 
 export default async function ProfilePage() {
   const session = await getMemberSession();
@@ -61,8 +62,10 @@ export default async function ProfilePage() {
           </button>
         </form>
 
-        <form action={logoutMember} className="mt-4">
-          <button className="flex w-full items-center justify-center gap-2 rounded-xl border border-[--border] bg-white py-3 text-sm font-semibold text-red-600 hover:bg-red-50">
+        <div className="mt-4"><ThemeToggle /></div>
+
+        <form action={logoutMember} className="mt-3">
+          <button className="flex w-full items-center justify-center gap-2 rounded-xl border border-[--border] bg-surface py-3 text-sm font-semibold text-red-600 hover:bg-red-50">
             <LogOut size={16} /> Log out
           </button>
         </form>

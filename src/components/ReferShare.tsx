@@ -30,7 +30,7 @@ export function ReferShare({ code }: { code: string }) {
       <button onClick={share} className="inline-flex flex-1 items-center justify-center gap-2 rounded-xl bg-brand-500 px-4 py-2.5 text-sm font-semibold text-white hover:bg-brand-600">
         <Share2 size={16} /> Share invite
       </button>
-      <button onClick={copy} className="inline-flex items-center justify-center gap-2 rounded-xl border border-[--border] bg-white px-4 py-2.5 text-sm font-semibold text-ink-soft hover:bg-[--surface-2]">
+      <button onClick={copy} className="inline-flex items-center justify-center gap-2 rounded-xl border border-[--border] bg-surface px-4 py-2.5 text-sm font-semibold text-ink-soft hover:bg-[--surface-2]">
         {copied ? <Check size={16} className="text-brand-500" /> : <Copy size={16} />} {copied ? "Copied" : "Copy"}
       </button>
     </div>

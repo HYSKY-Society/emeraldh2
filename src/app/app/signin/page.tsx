@@ -47,14 +47,14 @@ export default function AppSignInPage() {
           <span className="mb-1 block text-sm font-medium text-ink-soft">Email</span>
           <span className="relative block">
             <Mail size={16} className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-ink-muted" />
-            <input name="email" type="email" required placeholder="you@example.com" className="w-full rounded-xl border border-[--border] bg-white py-3 pl-9 pr-3 text-ink outline-none focus:border-brand-400" />
+            <input name="email" type="email" required placeholder="you@example.com" className="w-full rounded-xl border border-[--border] bg-surface py-3 pl-9 pr-3 text-ink outline-none focus:border-brand-400" />
           </span>
         </label>
         <label className="block">
           <span className="mb-1 block text-sm font-medium text-ink-soft">Password</span>
           <span className="relative block">
             <Lock size={16} className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-ink-muted" />
-            <input name="password" type="password" required placeholder="••••••••" className="w-full rounded-xl border border-[--border] bg-white py-3 pl-9 pr-3 text-ink outline-none focus:border-brand-400" />
+            <input name="password" type="password" required placeholder="••••••••" className="w-full rounded-xl border border-[--border] bg-surface py-3 pl-9 pr-3 text-ink outline-none focus:border-brand-400" />
           </span>
         </label>
         <SubmitButton />
@@ -64,7 +64,7 @@ export default function AppSignInPage() {
         New here? <Link href="/app/register" className="font-semibold text-brand-600">Create an account</Link>
       </p>
 
-      <div className="mt-auto rounded-xl border border-dashed border-[--border] bg-white/60 px-4 py-3 text-center text-xs text-ink-muted">
+      <div className="mt-auto rounded-xl border border-dashed border-[--border] bg-surface px-4 py-3 text-center text-xs text-ink-muted">
         Demo: any seeded member email (e.g. <b>hydrogenchris@gmail.com</b>) with password <b>emerald123</b>.
       </div>
     </main>

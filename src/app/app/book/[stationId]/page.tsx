@@ -34,7 +34,7 @@ export default async function BookPage({ params }: { params: { stationId: string
       <h1 className="mb-1 mt-4 font-display text-2xl font-bold text-ink">Reserve fuel</h1>
       <p className="text-sm text-ink-muted">{station.title} · {formatCurrency(station.pricePerKg)}/kg</p>
 
-      <div className="mt-4 flex items-center justify-between rounded-xl border border-[--border] bg-white px-4 py-3 text-sm shadow-card">
+      <div className="mt-4 flex items-center justify-between rounded-xl border border-[--border] bg-surface px-4 py-3 text-sm shadow-card">
         <span className="flex items-center gap-2 text-ink-soft"><Wallet size={15} className="text-brand-500" /> Balance</span>
         <span className="font-display font-bold text-ink">{formatCurrency(member?.walletBalance ?? 0)}</span>
       </div>
@@ -46,7 +46,7 @@ export default async function BookPage({ params }: { params: { stationId: string
           {QUANTITIES.map((q, i) => (
             <label
               key={q}
-              className="flex cursor-pointer flex-col items-center gap-1 rounded-xl border border-[--border] bg-white p-4 shadow-card has-[:checked]:border-brand-400 has-[:checked]:bg-brand-50 has-[:checked]:ring-1 has-[:checked]:ring-brand-400"
+              className="flex cursor-pointer flex-col items-center gap-1 rounded-xl border border-[--border] bg-surface p-4 shadow-card has-[:checked]:border-brand-400 has-[:checked]:bg-brand-50 has-[:checked]:ring-1 has-[:checked]:ring-brand-400"
             >
               <input type="radio" name="qty" value={q} defaultChecked={i === QUANTITIES.length - 1} className="sr-only" />
               <span className="font-display text-lg font-bold text-ink">{q} kg</span>
@@ -55,7 +55,7 @@ export default async function BookPage({ params }: { params: { stationId: string
           ))}
         </div>
 
-        <div className="mt-2 flex items-start gap-2 rounded-xl border border-[--border] bg-white px-4 py-3 text-xs text-ink-muted shadow-card">
+        <div className="mt-2 flex items-start gap-2 rounded-xl border border-[--border] bg-surface px-4 py-3 text-xs text-ink-muted shadow-card">
           <Lock size={15} className="mt-0.5 shrink-0 text-brand-500" />
           Booking locks the station door for you and gives you a personal 6-digit access code. Payment is drawn from your balance.
         </div>

@@ -38,11 +38,11 @@ export default async function ReferPage() {
 
       {/* stats */}
       <div className="mt-5 grid grid-cols-2 gap-3">
-        <div className="rounded-xl border border-[--border] bg-white p-4 shadow-card">
+        <div className="rounded-xl border border-[--border] bg-surface p-4 shadow-card">
           <p className="flex items-center gap-1 font-mono text-[11px] uppercase text-ink-muted"><Users size={12} /> Referrals</p>
           <p className="mt-1 font-display text-2xl font-bold text-ink">{member.referrals.length}</p>
         </div>
-        <div className="rounded-xl border border-[--border] bg-white p-4 shadow-card">
+        <div className="rounded-xl border border-[--border] bg-surface p-4 shadow-card">
           <p className="flex items-center gap-1 font-mono text-[11px] uppercase text-ink-muted"><Gem size={12} /> Emeralds</p>
           <p className="mt-1 font-display text-2xl font-bold text-ink">{formatCurrency(member.referralEarnings)}</p>
         </div>
@@ -51,14 +51,14 @@ export default async function ReferPage() {
       {/* referrals */}
       <p className="mb-2 mt-6 font-mono text-[11px] uppercase tracking-wider text-ink-muted">People you referred</p>
       {member.referrals.length === 0 ? (
-        <div className="flex flex-col items-center gap-1 rounded-xl border border-dashed border-[--border] bg-white px-4 py-8 text-center">
+        <div className="flex flex-col items-center gap-1 rounded-xl border border-dashed border-[--border] bg-surface px-4 py-8 text-center">
           <Gift size={22} className="text-brand-500" />
           <p className="text-sm text-ink-muted">No referrals yet. Share your code to get started.</p>
         </div>
       ) : (
         <div className="flex flex-col gap-2.5">
           {member.referrals.map((r) => (
-            <Link key={r.id} href={`/app/members/${r.id}`} className="flex items-center gap-3 rounded-xl border border-[--border] bg-white p-3 shadow-card">
+            <Link key={r.id} href={`/app/members/${r.id}`} className="flex items-center gap-3 rounded-xl border border-[--border] bg-surface p-3 shadow-card">
               <Avatar name={r.name} size={38} />
               <div className="min-w-0 flex-1">
                 <p className="truncate font-display text-sm font-semibold text-ink">{r.name}</p>

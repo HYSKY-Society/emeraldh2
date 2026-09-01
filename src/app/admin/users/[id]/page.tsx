@@ -35,10 +35,10 @@ export default async function MemberProfile({ params }: { params: { id: string }
                 <Check size={16} /> Approve
               </ActionButton>
             )}
-            <ActionButton action={toggleMemberActive.bind(null, member.id, !member.isActive)} className="inline-flex items-center gap-1 rounded-lg border border-[--border] bg-white px-3 py-2 text-sm font-semibold text-ink-soft hover:bg-[--surface-2]">
+            <ActionButton action={toggleMemberActive.bind(null, member.id, !member.isActive)} className="inline-flex items-center gap-1 rounded-lg border border-[--border] bg-surface px-3 py-2 text-sm font-semibold text-ink-soft hover:bg-[--surface-2]">
               <Power size={16} /> {member.isActive ? "Deactivate" : "Activate"}
             </ActionButton>
-            <ConfirmButton action={deleteMember.bind(null, member.id)} confirmText={`Delete ${member.name}?`} className="inline-flex items-center gap-1 rounded-lg border border-red-200 bg-white px-3 py-2 text-sm font-semibold text-red-600 hover:bg-red-50">
+            <ConfirmButton action={deleteMember.bind(null, member.id)} confirmText={`Delete ${member.name}?`} className="inline-flex items-center gap-1 rounded-lg border border-red-200 bg-surface px-3 py-2 text-sm font-semibold text-red-600 hover:bg-red-50">
               <Trash2 size={16} /> Delete
             </ConfirmButton>
           </div>

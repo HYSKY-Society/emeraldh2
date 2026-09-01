@@ -18,7 +18,7 @@ function SubmitButton() {
   );
 }
 
-const inputCls = "w-full rounded-xl border border-[--border] bg-white px-3 py-3 text-ink outline-none focus:border-brand-400";
+const inputCls = "w-full rounded-xl border border-[--border] bg-surface px-3 py-3 text-ink outline-none focus:border-brand-400";
 
 export default function RegisterPage() {
   const [state, formAction] = useFormState<AuthState, FormData>(registerMember, {});

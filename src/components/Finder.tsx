@@ -63,7 +63,7 @@ export default function Finder({
   return (
     <div className="flex flex-col gap-4">
       {/* remaining-miles control */}
-      <div className="rounded-2xl border border-[--border] bg-white p-4 shadow-card">
+      <div className="rounded-2xl border border-[--border] bg-surface p-4 shadow-card">
         <label className="flex items-center gap-2 text-sm font-medium text-ink-soft">
           <Navigation size={15} className="text-brand-500" /> Remaining miles in your tank
         </label>
@@ -105,7 +105,7 @@ export default function Finder({
         {inRange.map((s) => {
           const st = STATUS_LABEL[s.status] ?? STATUS_LABEL.offline;
           return (
-            <Link key={s.id} href={`/app/stations/${s.id}`} className="flex items-center gap-3 rounded-xl border border-[--border] bg-white p-3.5 shadow-card transition hover:shadow-md">
+            <Link key={s.id} href={`/app/stations/${s.id}`} className="flex items-center gap-3 rounded-xl border border-[--border] bg-surface p-3.5 shadow-card transition hover:shadow-md">
               <span className="grid h-10 w-10 shrink-0 place-items-center rounded-lg bg-brand-50 text-brand-600"><Fuel size={18} /></span>
               <div className="min-w-0 flex-1">
                 <p className="flex items-center gap-1 truncate font-display text-sm font-semibold text-ink">
@@ -124,7 +124,7 @@ export default function Finder({
           );
         })}
         {inRange.length === 0 && (
-          <p className="rounded-xl border border-dashed border-[--border] bg-white px-4 py-6 text-center text-sm text-ink-muted">
+          <p className="rounded-xl border border-dashed border-[--border] bg-surface px-4 py-6 text-center text-sm text-ink-muted">
             No stations within {miles} miles. Increase your range above.
           </p>
         )}

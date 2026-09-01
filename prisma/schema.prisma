@@ -75,10 +75,70 @@ model Member {
   pushSubs         PushSubscription[]
   posts            Post[]
   reactions        Reaction[]
+  eventRsvps       EventRSVP[]
+  sentMessages     Message[]      @relation("SentMessages")
+  receivedMessages Message[]      @relation("ReceivedMessages")
+  notifications    Notification[]
   createdAt        DateTime @default(now())
   updatedAt        DateTime @updatedAt
 
   @@index([isApproved])
+}
+
+// Community events
+model Event {
+  id          Int         @id @default(autoincrement())
+  title       String
+  description String
+  startsAt    DateTime
+  location    String?
+  isVirtual   Boolean     @default(true)
+  isFeatured  Boolean     @default(false)
+  imageUrl    String?
+  createdAt   DateTime    @default(now())
+  rsvps       EventRSVP[]
+}
+
+model EventRSVP {
+  id        Int      @id @default(autoincrement())
+  eventId   Int
+  event     Event    @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  memberId  Int
+  member    Member   @relation(fields: [memberId], references: [id])
+  createdAt DateTime @default(now())
+
+  @@unique([eventId, memberId])
+}
+
+// 1:1 direct messages
+model Message {
+  id          Int       @id @default(autoincrement())
+  senderId    Int
+  sender      Member    @relation("SentMessages", fields: [senderId], references: [id])
+  recipientId Int
+  recipient   Member    @relation("ReceivedMessages", fields: [recipientId], references: [id])
+  body        String
+  readAt      DateTime?
+  createdAt   DateTime  @default(now())
+
+  @@index([senderId])
+  @@index([recipientId])
+  @@index([createdAt])
+}
+
+// In-app notifications
+model Notification {
+  id        Int      @id @default(autoincrement())
+  memberId  Int
+  member    Member   @relation(fields: [memberId], references: [id])
+  type      String // message | booking | system
+  title     String
+  body      String
+  url       String?
+  read      Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  @@index([memberId])
 }
 
 // ---------------------------------------------------------------------------

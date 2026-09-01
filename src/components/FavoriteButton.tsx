@@ -11,7 +11,7 @@ export function FavoriteButton({ stationId, favorite }: { stationId: number; fav
       onClick={() => start(() => toggleFavorite(stationId))}
       disabled={pending}
       aria-pressed={favorite}
-      className="grid h-10 w-10 place-items-center rounded-xl border border-[--border] bg-white transition hover:bg-[--surface-2] disabled:opacity-50"
+      className="grid h-10 w-10 place-items-center rounded-xl border border-[--border] bg-surface transition hover:bg-[--surface-2] disabled:opacity-50"
     >
       <Star size={18} className={favorite ? "fill-amber-400 text-amber-400" : "text-ink-muted"} />
     </button>

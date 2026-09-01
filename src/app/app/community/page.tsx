@@ -40,7 +40,7 @@ export default async function CommunityPage() {
           {posts.map((p) => {
             const liked = p.reactions.some((r) => r.memberId === memberId);
             return (
-              <div key={p.id} className="rounded-2xl border border-[--border] bg-white p-4 shadow-card">
+              <div key={p.id} className="rounded-2xl border border-[--border] bg-surface p-4 shadow-card">
                 <div className="flex items-start gap-3">
                   <Avatar name={p.member.name} size={40} />
                   <div className="min-w-0 flex-1">
@@ -70,7 +70,7 @@ export default async function CommunityPage() {
             );
           })}
           {posts.length === 0 && (
-            <p className="rounded-xl border border-dashed border-[--border] bg-white px-4 py-8 text-center text-sm text-ink-muted">
+            <p className="rounded-xl border border-dashed border-[--border] bg-surface px-4 py-8 text-center text-sm text-ink-muted">
               No posts yet — be the first to share something.
             </p>
           )}

@@ -22,7 +22,7 @@ export default async function SafetyTestPage() {
 
       <form action={completeSafetyTest} className="flex flex-col gap-3">
         {questions.map((q, i) => (
-          <fieldset key={q.id} className="rounded-xl border border-[--border] bg-white p-4 shadow-card">
+          <fieldset key={q.id} className="rounded-xl border border-[--border] bg-surface p-4 shadow-card">
             <legend className="sr-only">Question {i + 1}</legend>
             <p className="text-sm text-ink-soft">
               <span className="mr-1 font-mono text-xs font-semibold text-brand-600">{i + 1}.</span>

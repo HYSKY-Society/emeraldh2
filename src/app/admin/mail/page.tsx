@@ -21,7 +21,7 @@ export default async function MailPage() {
         title="Bulk Mailing"
         breadcrumb={["Home", "Bulk Mailing"]}
         subtitle="Send an email campaign to a segment of members."
-        action={<Link href="/admin/mail/templates" className="inline-flex items-center gap-1.5 rounded-lg border border-[--border] bg-white px-3.5 py-2 text-sm font-semibold text-ink-soft hover:bg-[--surface-2]"><ListChecks size={16} /> Templates</Link>}
+        action={<Link href="/admin/mail/templates" className="inline-flex items-center gap-1.5 rounded-lg border border-[--border] bg-surface px-3.5 py-2 text-sm font-semibold text-ink-soft hover:bg-[--surface-2]"><ListChecks size={16} /> Templates</Link>}
       />
 
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
