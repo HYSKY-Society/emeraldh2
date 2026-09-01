@@ -54,7 +54,7 @@ export default async function EventsPage() {
         </div>
       )}
 
-      <div className="mt-5 flex flex-col gap-3">
+      <div className="mt-5 flex flex-col gap-3 lg:grid lg:grid-cols-2 lg:gap-4">
         {rest.map((e) => (
           <div key={e.id} className="rounded-2xl border border-[--border] bg-surface p-5 shadow-card">
             <h3 className="font-display font-semibold text-ink">{e.title}</h3>
@@ -75,7 +75,7 @@ export default async function EventsPage() {
       {news.length > 0 && (
         <div className="mt-8">
           <p className="mb-2 flex items-center gap-1.5 font-mono text-[11px] uppercase tracking-wider text-ink-muted"><Newspaper size={13} /> Latest news</p>
-          <div className="flex flex-col gap-2.5">
+          <div className="flex flex-col gap-2.5 lg:grid lg:grid-cols-2 lg:gap-3">
             {news.map((n) => (
               <div key={n.id} className="rounded-xl border border-[--border] bg-surface p-4 shadow-card">
                 <p className="font-display text-sm font-semibold text-ink">{n.title}</p>

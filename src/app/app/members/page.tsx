@@ -44,7 +44,7 @@ export default async function MembersPage({ searchParams }: { searchParams: { q?
         <h1 className="font-display text-2xl font-bold text-ink">Member Directory</h1>
         <p className="mb-4 text-sm text-ink-muted">Connect with the Emerald H2 community · {total} members</p>
 
-        <form className="relative">
+        <form className="relative lg:max-w-md">
           <Search size={16} className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-ink-muted" />
           <input
             name="q"
@@ -54,7 +54,7 @@ export default async function MembersPage({ searchParams }: { searchParams: { q?
           />
         </form>
 
-        <div className="mt-4 flex flex-col gap-2.5">
+        <div className="mt-4 flex flex-col gap-2.5 lg:grid lg:grid-cols-2 lg:gap-3 xl:grid-cols-3">
           {members.map((m) => (
             <Link key={m.id} href={`/app/members/${m.id}`} className="flex items-center gap-3 rounded-xl border border-[--border] bg-surface p-3.5 shadow-card transition hover:shadow-md">
               <Avatar name={m.name} size={44} />
@@ -72,7 +72,7 @@ export default async function MembersPage({ searchParams }: { searchParams: { q?
             </Link>
           ))}
           {members.length === 0 && (
-            <p className="rounded-xl border border-dashed border-[--border] bg-surface px-4 py-8 text-center text-sm text-ink-muted">No members match &ldquo;{q}&rdquo;.</p>
+            <p className="rounded-xl border border-dashed border-[--border] bg-surface px-4 py-8 text-center text-sm text-ink-muted lg:col-span-full">No members match &ldquo;{q}&rdquo;.</p>
           )}
         </div>
       </div>

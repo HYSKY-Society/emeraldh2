@@ -30,7 +30,7 @@ export default async function NotificationsPage() {
           You&rsquo;re all caught up.
         </div>
       ) : (
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-2 lg:grid lg:grid-cols-2 lg:gap-3">
           {notes.map((n) => {
             const Icon = ICON[n.type] ?? Bell;
             const inner = (

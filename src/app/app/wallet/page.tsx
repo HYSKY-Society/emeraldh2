@@ -26,27 +26,35 @@ export default async function WalletPage({ searchParams }: { searchParams: { nee
       </Link>
       <h1 className="mb-4 mt-3 font-display text-2xl font-bold text-ink">Wallet</h1>
 
-      <div className="overflow-hidden rounded-2xl p-6 text-white shadow-lg" style={{ background: "linear-gradient(135deg,#0b3f26,#0b8a4b)" }}>
-        <span className="flex items-center gap-1.5 text-sm text-white/80"><Wallet size={15} /> Fuel balance</span>
-        <p className="mt-2 font-display text-4xl font-extrabold tabular">{formatCurrency(member.walletBalance)}</p>
-      </div>
+      <div className="lg:grid lg:grid-cols-2 lg:items-start lg:gap-6">
+        {/* balance */}
+        <div>
+          <div className="overflow-hidden rounded-2xl p-6 text-white shadow-lg" style={{ background: "linear-gradient(135deg,#0b3f26,#0b8a4b)" }}>
+            <span className="flex items-center gap-1.5 text-sm text-white/80"><Wallet size={15} /> Fuel balance</span>
+            <p className="mt-2 font-display text-4xl font-extrabold tabular">{formatCurrency(member.walletBalance)}</p>
+          </div>
 
-      {shortfall > 0 && (
-        <p className="mt-4 rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-sm text-amber-800">
-          You need {formatCurrency(shortfall)} more to complete that booking. Top up below.
-        </p>
-      )}
+          {shortfall > 0 && (
+            <p className="mt-4 rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-sm text-amber-800">
+              You need {formatCurrency(shortfall)} more to complete that booking. Top up below.
+            </p>
+          )}
+        </div>
 
-      <p className="mt-5 text-sm font-medium text-ink-soft">Add balance (demo — no real charge)</p>
-      <div className="mt-2 grid grid-cols-2 gap-3">
-        {AMOUNTS.map((a) => (
-          <form key={a} action={topUpWallet}>
-            <input type="hidden" name="amount" value={a} />
-            <button type="submit" className="flex w-full items-center justify-center gap-2 rounded-xl border border-[--border] bg-surface py-4 font-display text-lg font-bold text-ink shadow-card transition hover:border-brand-400 hover:bg-brand-50">
-              <Plus size={16} className="text-brand-500" /> {formatCurrency(a)}
-            </button>
-          </form>
-        ))}
+        {/* top up */}
+        <div className="mt-5 lg:mt-0">
+          <p className="text-sm font-medium text-ink-soft">Add balance (demo — no real charge)</p>
+          <div className="mt-2 grid grid-cols-2 gap-3">
+            {AMOUNTS.map((a) => (
+              <form key={a} action={topUpWallet}>
+                <input type="hidden" name="amount" value={a} />
+                <button type="submit" className="flex w-full items-center justify-center gap-2 rounded-xl border border-[--border] bg-surface py-4 font-display text-lg font-bold text-ink shadow-card transition hover:border-brand-400 hover:bg-brand-50">
+                  <Plus size={16} className="text-brand-500" /> {formatCurrency(a)}
+                </button>
+              </form>
+            ))}
+          </div>
+        </div>
       </div>
 
       {searchParams.station && (

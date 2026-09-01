@@ -30,7 +30,7 @@ export default async function BookingsPage() {
           No bookings yet. <Link href="/app/find" className="font-semibold text-brand-600">Find a station</Link> to reserve fuel.
         </div>
       ) : (
-        <div className="flex flex-col gap-2.5">
+        <div className="flex flex-col gap-2.5 lg:grid lg:grid-cols-2 lg:gap-3 xl:grid-cols-3">
           {bookings.map((b) => (
             <Link key={b.id} href={`/app/bookings/${b.id}`} className="flex items-center gap-3 rounded-xl border border-[--border] bg-surface p-4 shadow-card transition hover:shadow-md">
               <span className="grid h-10 w-10 shrink-0 place-items-center rounded-lg bg-brand-50 text-brand-600"><Fuel size={18} /></span>

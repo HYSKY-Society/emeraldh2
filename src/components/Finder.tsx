@@ -61,9 +61,9 @@ export default function Finder({
   );
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="grid grid-cols-1 gap-4 lg:grid-cols-[360px_minmax(0,1fr)] lg:gap-5">
       {/* remaining-miles control */}
-      <div className="rounded-2xl border border-[--border] bg-surface p-4 shadow-card">
+      <div className="rounded-2xl border border-[--border] bg-surface p-4 shadow-card lg:col-start-1 lg:row-start-1">
         <label className="flex items-center gap-2 text-sm font-medium text-ink-soft">
           <Navigation size={15} className="text-brand-500" /> Remaining miles in your tank
         </label>
@@ -84,21 +84,26 @@ export default function Finder({
         </p>
       </div>
 
-      {/* map */}
-      <StationMap stations={inRange} userPos={userPos} center={userPos ?? center} />
+      {/* map — right column on desktop, sticky and full-height */}
+      <div className="lg:col-start-2 lg:row-start-1 lg:row-span-2 lg:sticky lg:top-6 lg:self-start">
+        <StationMap
+          stations={inRange}
+          userPos={userPos}
+          center={userPos ?? center}
+          className="h-[280px] w-full lg:h-[calc(100dvh_-_7rem)]"
+        />
+      </div>
 
-      {/* location state */}
-      {locating && (
-        <p className="flex items-center gap-2 text-sm text-ink-muted"><LocateFixed size={15} className="animate-pulse text-brand-500" /> Finding your location…</p>
-      )}
-      {denied && (
-        <p className="rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-xs text-amber-800">
-          Location off — showing all stations near Dayton. Enable location for accurate range filtering.
-        </p>
-      )}
-
-      {/* list */}
-      <div className="flex flex-col gap-2">
+      {/* list + location state — left column, below the control on desktop */}
+      <div className="flex flex-col gap-2 lg:col-start-1 lg:row-start-2">
+        {locating && (
+          <p className="flex items-center gap-2 text-sm text-ink-muted"><LocateFixed size={15} className="animate-pulse text-brand-500" /> Finding your location…</p>
+        )}
+        {denied && (
+          <p className="rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-xs text-amber-800">
+            Location off — showing all stations near Dayton. Enable location for accurate range filtering.
+          </p>
+        )}
         <p className="font-mono text-[11px] uppercase tracking-wider text-ink-muted">
           {userPos ? `${inRange.length} within ${miles} mi` : `${inRange.length} stations`}
         </p>

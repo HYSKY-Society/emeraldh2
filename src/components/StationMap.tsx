@@ -24,10 +24,12 @@ export default function StationMap({
   stations,
   userPos,
   center,
+  className = "h-[280px] w-full",
 }: {
   stations: MapStation[];
   userPos: { lat: number; lng: number } | null;
   center: { lat: number; lng: number };
+  className?: string;
 }) {
   const elRef = useRef<HTMLDivElement>(null);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -41,6 +43,7 @@ export default function StationMap({
   // init once
   useEffect(() => {
     let cancelled = false;
+    let ro: ResizeObserver | null = null;
     (async () => {
       const L = (await import("leaflet")).default;
       if (cancelled || !elRef.current || mapRef.current) return;
@@ -56,9 +59,15 @@ export default function StationMap({
       layerRef.current = L.layerGroup().addTo(map);
       mapRef.current = map;
       draw();
+      // keep the map sized to its container across responsive layout changes
+      if ("ResizeObserver" in window && elRef.current) {
+        ro = new ResizeObserver(() => map.invalidateSize());
+        ro.observe(elRef.current);
+      }
     })();
     return () => {
       cancelled = true;
+      if (ro) ro.disconnect();
       if (mapRef.current) {
         mapRef.current.remove();
         mapRef.current = null;
@@ -111,5 +120,5 @@ export default function StationMap({
     });
   }
 
-  return <div ref={elRef} className="h-[280px] w-full overflow-hidden rounded-xl border border-[--border]" />;
+  return <div ref={elRef} className={`${className} overflow-hidden rounded-xl border border-[--border]`} />;
 }

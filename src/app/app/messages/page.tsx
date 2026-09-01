@@ -1,69 +1,45 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { prisma } from "@/lib/db";
 import { getMemberSession } from "@/lib/member-auth";
+import { getThreads } from "@/lib/messages";
+import { ThreadList } from "@/components/ThreadList";
 import { MemberTabBar } from "@/components/MemberTabBar";
-import { Avatar } from "@/components/ui";
-import { timeAgo } from "@/lib/utils";
-import { MessageSquarePlus } from "lucide-react";
+import { MessageSquarePlus, MessagesSquare } from "lucide-react";
 
 export const dynamic = "force-dynamic";
 
 export default async function MessagesPage() {
   const session = await getMemberSession();
   if (!session) redirect("/app/signin");
-  const me = Number(session.sub);
-
-  const msgs = await prisma.message.findMany({
-    where: { OR: [{ senderId: me }, { recipientId: me }] },
-    orderBy: { createdAt: "desc" },
-    include: { sender: true, recipient: true },
-  });
-
-  type Thread = { otherId: number; otherName: string; last: string; at: Date; unread: number };
-  const threads = new Map<number, Thread>();
-  for (const m of msgs) {
-    const other = m.senderId === me ? m.recipient : m.sender;
-    if (!threads.has(other.id)) {
-      threads.set(other.id, { otherId: other.id, otherName: other.name, last: m.body, at: m.createdAt, unread: 0 });
-    }
-    if (m.recipientId === me && !m.readAt) threads.get(other.id)!.unread++;
-  }
-  const list = [...threads.values()];
+  const threads = await getThreads(Number(session.sub));
 
   return (
-    <div className="flex min-h-[100dvh] flex-col" style={{ background: "var(--ground)" }}>
-      <div className="flex-1 px-5 pb-6 pt-6">
-        <div className="flex items-center justify-between">
-          <h1 className="font-display text-2xl font-bold text-ink">Messages</h1>
-          <Link href="/app/members" className="inline-flex items-center gap-1.5 rounded-lg border border-[--border] bg-surface px-3 py-1.5 text-xs font-semibold text-ink-soft hover:bg-[--surface-2]">
-            <MessageSquarePlus size={14} /> New
-          </Link>
+    <>
+      {/* mobile: the conversation list (desktop shows it in the layout rail) */}
+      <div className="flex min-h-[100dvh] flex-col lg:hidden" style={{ background: "var(--ground)" }}>
+        <div className="flex-1 px-5 pb-6 pt-6">
+          <div className="flex items-center justify-between">
+            <h1 className="font-display text-2xl font-bold text-ink">Messages</h1>
+            <Link href="/app/members" className="inline-flex items-center gap-1.5 rounded-lg border border-[--border] bg-surface px-3 py-1.5 text-xs font-semibold text-ink-soft hover:bg-[--surface-2]">
+              <MessageSquarePlus size={14} /> New
+            </Link>
+          </div>
+          <div className="mt-4">
+            <ThreadList threads={threads} />
+          </div>
         </div>
-
-        {list.length === 0 ? (
-          <div className="mt-6 rounded-xl border border-dashed border-[--border] bg-surface px-4 py-10 text-center text-sm text-ink-muted">
-            No messages yet. Open a member from the <Link href="/app/members" className="font-semibold text-brand-600">directory</Link> to start a conversation.
-          </div>
-        ) : (
-          <div className="mt-4 flex flex-col gap-2">
-            {list.map((t) => (
-              <Link key={t.otherId} href={`/app/messages/${t.otherId}`} className="flex items-center gap-3 rounded-xl border border-[--border] bg-surface p-3.5 shadow-card transition hover:shadow-md">
-                <Avatar name={t.otherName} size={44} />
-                <div className="min-w-0 flex-1">
-                  <div className="flex items-center justify-between gap-2">
-                    <p className="truncate font-display text-sm font-semibold text-ink">{t.otherName}</p>
-                    <span className="shrink-0 text-[11px] text-ink-muted">{timeAgo(t.at)}</span>
-                  </div>
-                  <p className={`truncate text-sm ${t.unread ? "font-medium text-ink" : "text-ink-muted"}`}>{t.last}</p>
-                </div>
-                {t.unread > 0 && <span className="grid h-5 min-w-5 place-items-center rounded-full bg-brand-500 px-1.5 text-[11px] font-bold text-white">{t.unread}</span>}
-              </Link>
-            ))}
-          </div>
-        )}
+        <MemberTabBar />
       </div>
-      <MemberTabBar />
-    </div>
+
+      {/* desktop: empty state beside the rail */}
+      <div className="hidden min-h-[100dvh] flex-col items-center justify-center px-6 text-center lg:flex" style={{ background: "var(--ground)" }}>
+        <span className="grid h-14 w-14 place-items-center rounded-2xl bg-brand-50 text-brand-500"><MessagesSquare size={26} /></span>
+        <p className="mt-4 font-display text-lg font-semibold text-ink">Your messages</p>
+        <p className="mt-1 max-w-xs text-sm text-ink-muted">Pick a conversation from the list, or start a new one from the member directory.</p>
+        <Link href="/app/members" className="mt-4 inline-flex items-center gap-1.5 rounded-lg bg-brand-500 px-4 py-2 text-sm font-semibold text-white hover:bg-brand-600">
+          <MessageSquarePlus size={15} /> New message
+        </Link>
+      </div>
+    </>
   );
 }

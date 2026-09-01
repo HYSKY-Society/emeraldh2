@@ -39,7 +39,7 @@ export default async function ChatPage({ params }: { params: { memberId: string 
     <div className="flex min-h-[100dvh] flex-col" style={{ background: "var(--ground)" }}>
       {/* header */}
       <header className="sticky top-0 z-10 flex items-center gap-3 border-b border-[--border] bg-surface px-4 py-3 backdrop-blur">
-        <Link href="/app/messages" className="text-ink-muted"><ChevronLeft size={20} /></Link>
+        <Link href="/app/messages" className="text-ink-muted lg:hidden"><ChevronLeft size={20} /></Link>
         <Avatar name={other.name} size={36} />
         <Link href={`/app/members/${other.id}`} className="min-w-0 flex-1">
           <p className="truncate font-display text-sm font-semibold text-ink">{other.name}</p>
